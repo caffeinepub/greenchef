@@ -1,0 +1,6 @@
+{
+  "frontend/src/pages/AdminPage.tsx": "Admin panel page with access control, stats cards (total users, recipes generated, estimated revenue), Stripe payment setup, and a user management table with plan-change dropdowns. Only accessible to admin users.",
+  "frontend/src/pages/PaymentSuccessPage.tsx": "Post-Stripe payment success page that shows a confirmation message, unlocked feature list, and attempts to upgrade the user's plan via the backend. Provides navigation links to dashboard and profile.",
+  "frontend/src/pages/PaymentFailurePage.tsx": "Post-Stripe payment cancellation/failure page with a friendly error message, troubleshooting tips, and links to retry checkout or return to the dashboard.",
+  "frontend/src/App.tsx": "Main app entry point that sets up TanStack Router with all routes (landing, dashboard, profile, saved-recipes, meal-planner, pricing, admin, payment-success, payment-failure) inside a root layout with Navbar and footer."
+}

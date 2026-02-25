@@ -1,0 +1,104 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-24T17:27:35.825Z",
+  "summary": "The diff implements a substantial portion of the GreenChef SaaS app including the Motoko backend, React frontend pages, authentication, recipe generation, saved recipes, meal planner, admin panel, pricing/Stripe integration, and design system. Most core requirements appear addressed. However, several specific acceptance criteria have gaps or cannot be confirmed from the truncated diff, particularly around the actual logo/hero image static assets, favicon setup, PDF download functionality, and the precision of the color scheme matching.",
+  "missing_requirements": [
+    {
+      "id": "REQ-12",
+      "requirement": "Generate a branded app logo image (greenchef-logo.dim_256x256.png) stored in frontend/public/assets/generated; logo rendered in navbar and landing page hero; favicon uses the same logo icon.",
+      "reason": "The diff shows the Navbar uses a Lucide ChefHat icon component instead of the actual generated image asset. No evidence of greenchef-logo.dim_256x256.png being added to frontend/public/assets/generated, and no favicon configuration is visible in the diff.",
+      "evidence": [
+        "frontend/src/components/Navbar.tsx"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "requirement": "Generate a hero background illustration (hero-kitchen.dim_1440x600.png) stored in frontend/public/assets/generated.",
+      "reason": "LandingPage.tsx references the image at '/assets/generated/hero-kitchen.dim_1440x600.png', but the actual image file is not present in the listed diff files. The diff summary notes 9 added files were omitted due to limits, so the file may exist but cannot be confirmed.",
+      "evidence": [
+        "frontend/src/pages/LandingPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Download PDF button is enabled for Pro/Premium users.",
+      "reason": "RecipeCard.tsx is truncated and the Download PDF implementation cannot be confirmed. The file references a Download icon import but full PDF generation logic is not visible.",
+      "evidence": [
+        "frontend/src/components/RecipeCard.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "On successful payment callback, user's plan_type is updated to 'pro' or 'premium' correctly based on which plan was purchased.",
+      "reason": "PaymentSuccessPage.tsx hardcodes upgradePlan.mutateAsync(PlanType.pro) regardless of which plan was purchased, so premium subscribers would incorrectly be upgraded to pro instead of premium.",
+      "evidence": [
+        "frontend/src/pages/PaymentSuccessPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Nutrition breakdown section is visible on recipe cards for Premium users.",
+      "reason": "RecipeCard.tsx is truncated and the nutrition breakdown rendering for Premium users cannot be fully confirmed, though a nutrition field exists in the ParsedRecipe interface.",
+      "evidence": [
+        "frontend/src/components/RecipeCard.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "A caffeine.ai branding link is included in the global footer of every page.",
+      "reason": "The build request does not mention or request any caffeine.ai attribution or footer branding. This was added without being requested.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "PaymentSetup component allowing admin to configure Stripe secret key and allowed countries via the UI.",
+      "reason": "The build request specifies Stripe Checkout integration but does not request an in-app Stripe configuration UI panel where admins can enter secret keys. This is an extra feature not in the requirements.",
+      "evidence": [
+        "frontend/src/components/PaymentSetup.tsx",
+        "frontend/src/pages/AdminPage.tsx"
+      ]
+    },
+    {
+      "description": "Dark mode CSS variables defined in index.css.",
+      "reason": "The build request specifies a green color scheme with exact hex values but does not mention dark mode support. Dark mode theme variables are included without being requested.",
+      "evidence": [
+        "frontend/src/index.css"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AdBanner.tsx",
+    "frontend/src/components/Navbar.tsx",
+    "frontend/src/components/PaymentSetup.tsx",
+    "frontend/src/components/ProfileSetupModal.tsx",
+    "frontend/src/components/RecipeCard.tsx",
+    "frontend/src/components/UpgradePromptModal.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/MealPlannerPage.tsx",
+    "frontend/src/pages/PaymentFailurePage.tsx",
+    "frontend/src/pages/PaymentSuccessPage.tsx",
+    "frontend/src/pages/PricingPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/SavedRecipesPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

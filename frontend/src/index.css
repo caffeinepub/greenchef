@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+
+        /* GreenChef Green Palette */
+        --background: 0.97 0.025 130;
+        --foreground: 0.2 0.04 145;
+        --card: 1 0 0;
+        --card-foreground: 0.2 0.04 145;
+        --popover: 1 0 0;
+        --popover-foreground: 0.2 0.04 145;
+        --primary: 0.42 0.13 145;
+        --primary-foreground: 0.99 0 0;
+        --secondary: 0.92 0.05 140;
+        --secondary-foreground: 0.3 0.1 145;
+        --muted: 0.94 0.03 135;
+        --muted-foreground: 0.5 0.05 145;
+        --accent: 0.88 0.08 140;
+        --accent-foreground: 0.25 0.1 145;
+        --destructive: 0.577 0.245 27.325;
+        --destructive-foreground: 0.985 0 0;
+        --border: 0.88 0.04 140;
+        --input: 0.9 0.04 140;
+        --ring: 0.42 0.13 145;
+        --chart-1: 0.42 0.13 145;
+        --chart-2: 0.6 0.118 184.704;
+        --chart-3: 0.398 0.07 227.392;
+        --chart-4: 0.828 0.189 84.429;
+        --chart-5: 0.769 0.188 70.08;
+        --sidebar: 0.95 0.04 135;
+        --sidebar-foreground: 0.2 0.04 145;
+        --sidebar-primary: 0.42 0.13 145;
+        --sidebar-primary-foreground: 0.99 0 0;
+        --sidebar-accent: 0.88 0.08 140;
+        --sidebar-accent-foreground: 0.25 0.1 145;
+        --sidebar-border: 0.88 0.04 140;
+        --sidebar-ring: 0.42 0.13 145;
+
+        /* Custom tokens */
+        --green-primary: oklch(0.42 0.13 145);
+        --green-light: oklch(0.82 0.1 145);
+        --green-bg: oklch(0.97 0.025 130);
+        --green-dark: oklch(0.28 0.1 145);
+        --shadow-soft: 0 2px 12px 0 oklch(0.42 0.13 145 / 0.12);
+        --shadow-card: 0 4px 24px 0 oklch(0.42 0.13 145 / 0.1);
+    }
+
+    .dark {
+        --background: 0.15 0.03 145;
+        --foreground: 0.95 0.02 140;
+        --card: 0.2 0.04 145;
+        --card-foreground: 0.95 0.02 140;
+        --popover: 0.22 0.04 145;
+        --popover-foreground: 0.95 0.02 140;
+        --primary: 0.55 0.15 145;
+        --primary-foreground: 0.1 0.02 145;
+        --secondary: 0.25 0.05 145;
+        --secondary-foreground: 0.9 0.03 140;
+        --muted: 0.25 0.04 145;
+        --muted-foreground: 0.65 0.05 140;
+        --accent: 0.3 0.07 145;
+        --accent-foreground: 0.9 0.03 140;
+        --destructive: 0.704 0.191 22.216;
+        --destructive-foreground: 0.985 0 0;
+        --border: 1 0 0 / 10%;
+        --input: 1 0 0 / 15%;
+        --ring: 0.55 0.15 145;
+        --sidebar: 0.18 0.04 145;
+        --sidebar-foreground: 0.95 0.02 140;
+        --sidebar-primary: 0.55 0.15 145;
+        --sidebar-primary-foreground: 0.1 0.02 145;
+        --sidebar-accent: 0.3 0.07 145;
+        --sidebar-accent-foreground: 0.9 0.03 140;
+        --sidebar-border: 1 0 0 / 10%;
+        --sidebar-ring: 0.55 0.15 145;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground font-sans;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+    }
+}
+
+@layer utilities {
+    .shadow-soft {
+        box-shadow: var(--shadow-soft);
+    }
+    .shadow-card {
+        box-shadow: var(--shadow-card);
+    }
+    .btn-primary {
+        @apply bg-primary text-primary-foreground rounded-xl px-6 py-3 font-semibold transition-all hover:opacity-90 active:scale-95 shadow-soft;
+    }
+    .card-green {
+        @apply bg-card rounded-2xl shadow-card border border-border;
+    }
+    .ingredient-chip {
+        @apply inline-flex items-center gap-1 bg-accent text-accent-foreground rounded-full px-3 py-1 text-sm font-medium;
+    }
+}

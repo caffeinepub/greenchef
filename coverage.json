@@ -1,0 +1,300 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-24T17:27:35.828Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 13,
+    "implemented": 7,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Create a visually polished landing page with a green color scheme (Primary: #2E7D32, Light: #A5D6A7, Background: #F1F8E9), modern sans-serif font, rounded buttons (12px radius), and soft shadows. Include: (1) Hero section with headline 'Cook Smart With What You Already Have', subheadline 'Turn simple ingredients into delicious meals instantly with AI.', and a large CTA button 'Start Cooking Free'; (2) 'How It Works' section with 3 steps; (3) Pricing table showing Free, Pro ($10/mo), and Premium ($20/mo) plans; (4) Testimonials section; (5) FAQ section; (6) Footer with Privacy Policy and Terms of Service links. The entire app must be fully mobile responsive.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/routes/landing.tsx",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-10",
+        "summary": "Build an Admin Panel accessible only to a designated admin principal. Display: total registered users count, revenue summary (simulated from Stripe webhook data stored in backend), API usage counter (total recipes generated), and a user list with subscription management (ability to change a user's plan_type). Protect the route so only the admin principal can access it.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/routes/admin.tsx",
+          "frontend/src/hooks/useAdminGetStats.ts",
+          "frontend/src/hooks/useAdminGetAllUsers.ts",
+          "frontend/src/hooks/useAdminSetUserPlan.ts",
+          "frontend/src/components/PaymentSetup.tsx",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PaymentSetup.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Apply a consistent, minimal green design system throughout the entire app. Use #2E7D32 as primary green, #A5D6A7 as light green, #F1F8E9 as background, 12px border-radius on all buttons, soft box shadows on cards and modals, and a modern sans-serif font (e.g. Inter or similar). Ad banner placeholders should appear for free-plan users in the dashboard area. Ensure no jarring color clashes and maintain visual hierarchy.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/components/AdBanner.tsx",
+          "frontend/src/routes/dashboard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/components/AdBanner.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Generate a branded app logo image: a minimalist green chef's hat icon with a small leaf accent, suitable for use as the site logo and favicon.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/Navbar.tsx",
+          "frontend/index.html",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/Navbar.tsx",
+          "frontend/index.html"
+        ]
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Generate a hero background illustration for the landing page: a soft, light-green toned flat illustration of a kitchen counter with fresh vegetables and herbs arranged neatly, suitable as a background or hero visual.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/routes/landing.tsx"
+        ],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Implement user authentication using Internet Identity (the platform's supported auth mechanism). Support user signup and login. Store user records in the backend with fields: id, email (or principal), plan_type (free/pro/premium), daily_recipe_count, daily_limit, and created_at. Display a profile section showing the user's name/email and current subscription status.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/LoginButton.tsx",
+          "frontend/src/components/ProfileSetupModal.tsx",
+          "frontend/src/hooks/useGetCallerUserProfile.ts",
+          "frontend/src/hooks/useSaveCallerUserProfile.ts",
+          "frontend/src/routes/profile.tsx",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ProfileSetupModal.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Build the Home Dashboard for authenticated users. Include: (1) A large ingredient input field with placeholder text 'Enter ingredients (e.g. rice, tomato, onion)'; (2) An 'Add ingredient (+)' button to add ingredients as removable tags/chips; (3) A large primary green 'Generate Recipe' button; (4) A daily usage counter visible to free-plan users showing e.g. '3 / 5 recipes used today'.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/routes/dashboard.tsx",
+          "frontend/src/hooks/useGenerateRecipe.ts",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Implement recipe generation by calling an external AI API (OpenAI-compatible HTTP outcall from the Motoko backend). Use the following system prompt: 'You are a professional home chef. Create a simple, easy-to-cook recipe using ONLY these ingredients: {{user_ingredients}}. Rules: Cooking time under 30 minutes. Minimal extra ingredients. Clear step-by-step instructions. Mention cooking time. Mention difficulty (Easy/Medium). Give a creative recipe name. Friendly tone.' Parse the AI response and return structured data: recipe name, cooking time, difficulty, ingredients used, and step-by-step instructions. Enforce the daily limit (5/day for free users, unlimited for Pro/Premium) in the backend before calling the AI.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Display generated recipes in a Recipe Card layout showing: Recipe Name, Cooking Time, Difficulty badge, Ingredients Used list, and Step-by-step instructions. Include action buttons: 'Save' (Pro/Premium only), 'Share' (copies a shareable text), and 'Download PDF' (Pro/Premium only). Show an upgrade prompt for free users who click Save or Download PDF.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/RecipeCard.tsx",
+          "frontend/src/hooks/useSaveRecipe.ts",
+          "frontend/src/components/UpgradePromptModal.tsx",
+          "frontend/src/routes/dashboard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/RecipeCard.tsx",
+          "frontend/src/components/UpgradePromptModal.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Implement recipe persistence in the Motoko backend. Store generated recipes with fields: id, user_id, ingredients_input (array of strings), generated_recipe (full structured text/JSON), and created_at. Implement a saved recipes table with id, user_id, and recipe_id. Expose query methods: get all recipes for a user, save a recipe (Pro/Premium only), get saved recipes for a user, and delete a saved recipe.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Build a Saved Recipes page for Pro/Premium users that displays all their saved recipe cards in a grid. Each card shows the recipe name, difficulty, cooking time, and a button to view full details or remove from saved.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/routes/saved-recipes.tsx",
+          "frontend/src/hooks/useGetSavedRecipes.ts",
+          "frontend/src/hooks/useDeleteSavedRecipe.ts",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Integrate Stripe for subscription payments. Implement three tiers: Free (default, 5 recipes/day, ads shown), Pro ($10/month, unlimited recipes, save favorites, no ads, download PDF), and Premium ($20/month, all Pro features plus meal planner, grocery list generation, and nutrition breakdown placeholder). Use Stripe Checkout for plan upgrades. On successful payment, update the user's plan_type in the backend.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PaymentSetup.tsx",
+          "frontend/src/hooks/useCreateCheckoutSession.ts",
+          "frontend/src/routes/pricing.tsx",
+          "frontend/src/routes/payment-success.tsx",
+          "frontend/src/routes/payment-failure.tsx",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PaymentSetup.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Build a Premium-only Meal Planner feature. Allow Premium users to generate a weekly meal plan based on available ingredients. Include a Grocery List auto-generation feature that aggregates missing ingredients across the meal plan. Include a Nutrition Breakdown placeholder section per recipe (can show estimated values).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/routes/meal-planner.tsx",
+          "frontend/src/hooks/useGenerateMealPlan.ts",
+          "frontend/src/hooks/useGetUserMealPlans.ts",
+          "frontend/src/components/RecipeCard.tsx",
+          "frontend/src/routes/__root.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/RecipeCard.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/authorization/MixinAuthorization.mo",
+    "backend/authorization/access-control.mo",
+    "backend/http-outcalls/outcall.mo",
+    "backend/main.mo",
+    "backend/stripe/stripe.mo",
+    "build-request.json",
+    "build-template/Dockerfile",
+    "build-template/LICENSE",
+    "build-template/README.md",
+    "build-template/deploy.sh",
+    "build-template/icp.yaml",
+    "build-template/package.json",
+    "build-template/pnpm-lock.yaml",
+    "build-template/pnpm-workspace.yaml",
+    "build-template/scripts/prune-unused-images.js",
+    "build-template/scripts/resize-images.js",
+    "build-template/src/backend/canister.yaml",
+    "build-template/src/backend/system-idl/aaaaa-aa.did",
+    "build-template/src/frontend/canister.yaml",
+    "build-template/src/frontend/components.json",
+    "build-template/src/frontend/env.json",
+    "build-template/src/frontend/eslint-rules/no-bigint-in-query-keys.js",
+    "build-template/src/frontend/eslint-rules/require-internet-identity-provider.js",
+    "build-template/src/frontend/eslint.config.js",
+    "build-template/src/frontend/package.json",
+    "build-template/src/frontend/postcss.config.js",
+    "build-template/src/frontend/src/components/ui/accordion.tsx",
+    "build-template/src/frontend/src/components/ui/alert-dialog.tsx",
+    "build-template/src/frontend/src/components/ui/alert.tsx",
+    "build-template/src/frontend/src/components/ui/aspect-ratio.tsx",
+    "build-template/src/frontend/src/components/ui/avatar.tsx",
+    "build-template/src/frontend/src/components/ui/badge.tsx",
+    "build-template/src/frontend/src/components/ui/breadcrumb.tsx",
+    "build-template/src/frontend/src/components/ui/button.tsx",
+    "build-template/src/frontend/src/components/ui/calendar.tsx",
+    "build-template/src/frontend/src/components/ui/card.tsx",
+    "build-template/src/frontend/src/components/ui/carousel.tsx",
+    "build-template/src/frontend/src/components/ui/chart.tsx",
+    "build-template/src/frontend/src/components/ui/checkbox.tsx",
+    "build-template/src/frontend/src/components/ui/collapsible.tsx",
+    "build-template/src/frontend/src/components/ui/command.tsx",
+    "build-template/src/frontend/src/components/ui/context-menu.tsx",
+    "build-template/src/frontend/src/components/ui/dialog.tsx",
+    "build-template/src/frontend/src/components/ui/drawer.tsx",
+    "build-template/src/frontend/src/components/ui/dropdown-menu.tsx",
+    "build-template/src/frontend/src/components/ui/form.tsx",
+    "build-template/src/frontend/src/components/ui/hover-card.tsx",
+    "build-template/src/frontend/src/components/ui/input-otp.tsx",
+    "build-template/src/frontend/src/components/ui/input.tsx",
+    "build-template/src/frontend/src/components/ui/label.tsx",
+    "build-template/src/frontend/src/components/ui/menubar.tsx",
+    "build-template/src/frontend/src/components/ui/navigation-menu.tsx",
+    "build-template/src/frontend/src/components/ui/pagination.tsx",
+    "build-template/src/frontend/src/components/ui/popover.tsx",
+    "build-template/src/frontend/src/components/ui/progress.tsx",
+    "build-template/src/frontend/src/components/ui/radio-group.tsx",
+    "build-template/src/frontend/src/components/ui/resizable.tsx",
+    "build-template/src/frontend/src/components/ui/scroll-area.tsx",
+    "build-template/src/frontend/src/components/ui/select.tsx",
+    "build-template/src/frontend/src/components/ui/separator.tsx",
+    "build-template/src/frontend/src/components/ui/sheet.tsx",
+    "build-template/src/frontend/src/components/ui/sidebar.tsx",
+    "build-template/src/frontend/src/components/ui/skeleton.tsx",
+    "build-template/src/frontend/src/components/ui/slider.tsx",
+    "build-template/src/frontend/src/components/ui/sonner.tsx",
+    "build-template/src/frontend/src/components/ui/switch.tsx",
+    "build-template/src/frontend/src/components/ui/table.tsx",
+    "build-template/src/frontend/src/components/ui/tabs.tsx",
+    "build-template/src/frontend/src/components/ui/textarea.tsx",
+    "build-template/src/frontend/src/components/ui/toggle-group.tsx",
+    "build-template/src/frontend/src/components/ui/toggle.tsx",
+    "build-template/src/frontend/src/components/ui/tooltip.tsx",
+    "build-template/src/frontend/src/hooks/use-mobile.tsx",
+    "build-template/src/frontend/src/lib/utils.ts",
+    "build-template/src/frontend/tsconfig.json",
+    "build-template/src/frontend/vite.config.js",
+    "build-template/tsconfig.json",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/public/assets/generated/greenchef-logo.dim_256x256.png",
+    "frontend/public/assets/generated/hero-kitchen.dim_1440x600.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/AdBanner.tsx",
+    "frontend/src/components/Navbar.tsx",
+    "frontend/src/components/PaymentSetup.tsx",
+    "frontend/src/components/ProfileSetupModal.tsx",
+    "frontend/src/components/RecipeCard.tsx",
+    "frontend/src/components/UpgradePromptModal.tsx",
+    "frontend/src/config.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/MealPlannerPage.tsx",
+    "frontend/src/pages/PaymentFailurePage.tsx",
+    "frontend/src/pages/PaymentSuccessPage.tsx",
+    "frontend/src/pages/PricingPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/SavedRecipesPage.tsx",
+    "frontend/src/ui-summary.json",
+    "frontend/src/utils/StorageClient.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

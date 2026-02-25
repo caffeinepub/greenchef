@@ -1,0 +1,306 @@
+{
+  "kind": "build_request",
+  "title": "GreenChef – AI Recipe Generator SaaS App",
+  "projectName": "GreenChef",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a visually polished landing page with a green color scheme (Primary: #2E7D32, Light: #A5D6A7, Background: #F1F8E9), modern sans-serif font, rounded buttons (12px radius), and soft shadows. Include: (1) Hero section with headline 'Cook Smart With What You Already Have', subheadline 'Turn simple ingredients into delicious meals instantly with AI.', and a large CTA button 'Start Cooking Free'; (2) 'How It Works' section with 3 steps; (3) Pricing table showing Free, Pro ($10/mo), and Premium ($20/mo) plans; (4) Testimonials section; (5) FAQ section; (6) Footer with Privacy Policy and Terms of Service links. The entire app must be fully mobile responsive.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "LANDING PAGE",
+          "Hero Section",
+          "Sections"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Landing page renders all six described sections",
+        "Color scheme matches #2E7D32 / #A5D6A7 / #F1F8E9 exactly",
+        "CTA button routes to signup/login",
+        "Layout is responsive on mobile, tablet, and desktop"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement user authentication using Internet Identity (the platform's supported auth mechanism). Support user signup and login. Store user records in the backend with fields: id, email (or principal), plan_type (free/pro/premium), daily_recipe_count, daily_limit, and created_at. Display a profile section showing the user's name/email and current subscription status.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "AUTHENTICATION SYSTEM",
+          "User signup/login",
+          "Profile section",
+          "Subscription status display"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can authenticate via Internet Identity",
+        "User record is created on first login with plan_type defaulting to 'free'",
+        "Profile page displays user identity and current plan",
+        "Unauthenticated users are redirected to login when accessing protected routes"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Build the Home Dashboard for authenticated users. Include: (1) A large ingredient input field with placeholder text 'Enter ingredients (e.g. rice, tomato, onion)'; (2) An 'Add ingredient (+)' button to add ingredients as removable tags/chips; (3) A large primary green 'Generate Recipe' button; (4) A daily usage counter visible to free-plan users showing e.g. '3 / 5 recipes used today'.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "HOME DASHBOARD",
+          "Large ingredient input field",
+          "Add ingredient button",
+          "Generate Recipe button",
+          "Daily usage counter for free users"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can type and add multiple ingredients as removable chips",
+        "Generate Recipe button triggers recipe generation",
+        "Free users see a daily usage counter",
+        "Counter accurately reflects backend state"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement recipe generation by calling an external AI API (OpenAI-compatible HTTP outcall from the Motoko backend). Use the following system prompt: 'You are a professional home chef. Create a simple, easy-to-cook recipe using ONLY these ingredients: {{user_ingredients}}. Rules: Cooking time under 30 minutes. Minimal extra ingredients. Clear step-by-step instructions. Mention cooking time. Mention difficulty (Easy/Medium). Give a creative recipe name. Friendly tone.' Parse the AI response and return structured data: recipe name, cooking time, difficulty, ingredients used, and step-by-step instructions. Enforce the daily limit (5/day for free users, unlimited for Pro/Premium) in the backend before calling the AI.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "RECIPE GENERATION SYSTEM",
+          "Connect to OpenAI API",
+          "Use this prompt for generation"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend makes an HTTP outcall to the AI API with the constructed prompt",
+        "Returns structured recipe data (name, time, difficulty, ingredients, steps)",
+        "Rejects requests from free users who have hit the 5/day limit with a clear error",
+        "Increments the user's daily_recipe_count on each successful generation"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Display generated recipes in a Recipe Card layout showing: Recipe Name, Cooking Time, Difficulty badge, Ingredients Used list, and Step-by-step instructions. Include action buttons: 'Save' (Pro/Premium only), 'Share' (copies a shareable text), and 'Download PDF' (Pro/Premium only). Show an upgrade prompt for free users who click Save or Download PDF.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Display output in a Recipe Card layout",
+          "Buttons: Save, Share, Download PDF"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Recipe card displays all structured fields from the backend response",
+        "Save button is functional for Pro/Premium users and stores the recipe",
+        "Share button copies recipe text to clipboard",
+        "Download PDF button is enabled for Pro/Premium users",
+        "Free users see an upgrade prompt when attempting to Save or Download PDF"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement recipe persistence in the Motoko backend. Store generated recipes with fields: id, user_id, ingredients_input (array of strings), generated_recipe (full structured text/JSON), and created_at. Implement a saved recipes table with id, user_id, and recipe_id. Expose query methods: get all recipes for a user, save a recipe (Pro/Premium only), get saved recipes for a user, and delete a saved recipe.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Recipes Table",
+          "Saved Recipes Table",
+          "Save favorites"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated recipes are persisted per user",
+        "Saved recipes are stored and retrievable",
+        "Only Pro/Premium users can save recipes; free users get an authorization error",
+        "Users can delete their saved recipes"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Build a Saved Recipes page for Pro/Premium users that displays all their saved recipe cards in a grid. Each card shows the recipe name, difficulty, cooking time, and a button to view full details or remove from saved.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Save favorites"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Saved Recipes page is accessible from navigation for Pro/Premium users",
+        "Displays all saved recipes as cards",
+        "Cards link to full recipe detail view",
+        "Users can remove a recipe from saved"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Integrate Stripe for subscription payments. Implement three tiers: Free (default, 5 recipes/day, ads shown), Pro ($10/month, unlimited recipes, save favorites, no ads, download PDF), and Premium ($20/month, all Pro features plus meal planner, grocery list generation, and nutrition breakdown placeholder). Use Stripe Checkout for plan upgrades. On successful payment, update the user's plan_type in the backend.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "SUBSCRIPTION MODEL",
+          "Integrate Stripe for payment processing"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Pricing page displays all three tiers with their features",
+        "Clicking upgrade launches Stripe Checkout",
+        "On successful payment callback, user's plan_type is updated to 'pro' or 'premium'",
+        "Plan-gated features unlock immediately after upgrade"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Build a Premium-only Meal Planner feature. Allow Premium users to generate a weekly meal plan based on available ingredients. Include a Grocery List auto-generation feature that aggregates missing ingredients across the meal plan. Include a Nutrition Breakdown placeholder section per recipe (can show estimated values).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Meal planner",
+          "Grocery list auto generation",
+          "Nutrition breakdown"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Meal Planner page is accessible only to Premium users",
+        "Users can generate a 7-day meal plan",
+        "Grocery list is auto-generated from the meal plan",
+        "Nutrition breakdown section is visible on recipe cards for Premium users"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Build an Admin Panel accessible only to a designated admin principal. Display: total registered users count, revenue summary (simulated from Stripe webhook data stored in backend), API usage counter (total recipes generated), and a user list with subscription management (ability to change a user's plan_type). Protect the route so only the admin principal can access it.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "ADMIN PANEL",
+          "View total users",
+          "View revenue",
+          "Monitor API usage",
+          "Manage subscriptions"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin panel route is inaccessible to non-admin users",
+        "Displays accurate total user count",
+        "Shows total recipes generated as API usage metric",
+        "Admin can update a user's plan_type from the panel"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Apply a consistent, minimal green design system throughout the entire app. Use #2E7D32 as primary green, #A5D6A7 as light green, #F1F8E9 as background, 12px border-radius on all buttons, soft box shadows on cards and modals, and a modern sans-serif font (e.g. Inter or similar). Ad banner placeholders should appear for free-plan users in the dashboard area. Ensure no jarring color clashes and maintain visual hierarchy.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "DESIGN STYLE",
+          "Minimal, clean UI",
+          "Green color scheme",
+          "Rounded buttons (12px radius)",
+          "Soft shadows",
+          "Ads enabled"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All interactive elements use the defined green palette",
+        "Buttons have 12px border-radius throughout",
+        "Cards and modals have soft shadows",
+        "Ad placeholder banners appear for free users and are absent for paid users",
+        "App passes a basic visual consistency check across all pages"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Generate a branded app logo image: a minimalist green chef's hat icon with a small leaf accent, suitable for use as the site logo and favicon.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "GreenChef"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Logo is rendered in the navbar and landing page hero",
+        "Favicon uses the same logo icon",
+        "Logo is stored as a static asset in frontend/public/assets/generated"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Generate a hero background illustration for the landing page: a soft, light-green toned flat illustration of a kitchen counter with fresh vegetables and herbs arranged neatly, suitable as a background or hero visual.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Hero Section"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Hero section displays the illustration as background or side visual",
+        "Image is stored in frontend/public/assets/generated",
+        "Image does not distract from the hero text and CTA"
+      ]
+    }
+  ],
+  "constraints": [
+    "Authentication must use Internet Identity only — no email/password or Google OAuth (not supported on this platform)",
+    "No external databases — all data persistence must use Motoko stable storage in the single backend actor",
+    "No Node.js/Express backend — all backend logic must be implemented in Motoko",
+    "OpenAI API calls must be made via Motoko HTTP outcalls from the backend canister",
+    "Do not edit any files under frontend/src/hooks/ or frontend/src/components/ui",
+    "All generated images must be stored as static assets in frontend/public/assets/generated and served directly — never routed through the backend"
+  ],
+  "nonGoals": [
+    "Forgot password flow (not applicable with Internet Identity)",
+    "Google OAuth login",
+    "Email notifications or SMTP integration",
+    "Real-time WebSocket features",
+    "Native mobile app",
+    "Multi-language / i18n support (future scalability item, not in scope for this build)",
+    "AI cost optimization and caching layer (future scalability item)",
+    "Actual Stripe webhook processing for live payment confirmation (Stripe Checkout flow is in scope; full webhook infrastructure is out of scope)"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimalist green chef's hat icon with a small leaf accent, flat vector style on transparent background (greenchef-logo.dim_256x256.png)",
+      "Soft flat illustration of a kitchen counter with fresh vegetables and herbs in light green tones, wide landscape composition (hero-kitchen.dim_1440x600.png)"
+    ],
+    "edits": []
+  }
+}

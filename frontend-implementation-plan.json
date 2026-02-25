@@ -1,0 +1,359 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "GreenChef – AI Recipe Generator SaaS App Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create a visually polished landing page with green color scheme, hero section, how it works, pricing table, testimonials, FAQ, and footer",
+      "acceptanceCriteria": [
+        "Landing page renders all six described sections",
+        "Color scheme matches #2E7D32 / #A5D6A7 / #F1F8E9 exactly",
+        "CTA button routes to signup/login",
+        "Layout is responsive on mobile, tablet, and desktop"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/landing.tsx",
+          "operation": "create",
+          "description": "Create landing page component with hero section (headline 'Cook Smart With What You Already Have', subheadline, CTA button), how it works (3 steps), pricing table (Free/Pro $10/Premium $20), testimonials section, FAQ section, and footer with Privacy Policy and Terms links. Use green color scheme (#2E7D32 primary, #A5D6A7 light, #F1F8E9 background). Wire the generated hero illustration frontend/public/assets/generated/hero-kitchen.dim_1440x600.png as hero background. Wire the generated logo frontend/public/assets/generated/greenchef-logo.dim_256x256.png in the navigation area. Make fully responsive for mobile, tablet, and desktop."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /landing path to wire the landing page into the router. Update navigation to include link to landing page from authenticated views."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement user authentication UI using Internet Identity with profile setup and subscription status display",
+      "acceptanceCriteria": [
+        "Users can authenticate via Internet Identity",
+        "User record is created on first login with plan_type defaulting to 'free'",
+        "Profile page displays user identity and current plan",
+        "Unauthenticated users are redirected to login when accessing protected routes"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create login/logout button component using the authorization component. Use useInternetIdentity hook for authentication state and login/clear functions. Handle login status states (logging-in, authenticated, unauthenticated). On logout, clear React Query cache. Style with green color scheme (#2E7D32). Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Create modal component that prompts new users to enter their name/email on first login. Use getCallerUserProfile to check if profile exists, and saveCallerUserProfile to save it. Show modal only when isAuthenticated && !profileLoading && isFetched && userProfile === null to prevent modal flash. Include proper loading states from useGetCallerUserProfile hook. Style with green theme."
+        },
+        {
+          "path": "frontend/src/hooks/useGetCallerUserProfile.ts",
+          "operation": "create",
+          "description": "Create React Query hook for fetching current user profile using actor.getCallerUserProfile(). Return custom state that properly reflects actor dependency: isLoading should be actorFetching || query.isLoading, and isFetched should be !!actor && query.isFetched. This prevents profile setup modal flash on load."
+        },
+        {
+          "path": "frontend/src/hooks/useSaveCallerUserProfile.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for saving user profile using actor.saveCallerUserProfile(profile). Invalidate currentUserProfile query on success."
+        },
+        {
+          "path": "frontend/src/routes/profile.tsx",
+          "operation": "create",
+          "description": "Create profile page component that displays user's name/email from getCallerUserProfile and current subscription plan (free/pro/premium). Show plan features and upgrade options. Guard route to require authentication. Use green color scheme."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /profile path. Wrap protected routes (dashboard, profile, saved-recipes, meal-planner, admin) with authentication guard that redirects to /landing if not authenticated. Wire ProfileSetupModal to show after successful login when user has no profile."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Build Home Dashboard with ingredient input, add ingredient button, generate recipe button, and daily usage counter",
+      "acceptanceCriteria": [
+        "Users can type and add multiple ingredients as removable chips",
+        "Generate Recipe button triggers recipe generation",
+        "Free users see a daily usage counter",
+        "Counter accurately reflects backend state"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/dashboard.tsx",
+          "operation": "create",
+          "description": "Create authenticated home dashboard page. Include large ingredient input field with placeholder 'Enter ingredients (e.g. rice, tomato, onion)', 'Add ingredient (+)' button to add ingredients as removable tag chips, primary green 'Generate Recipe' button. For free-plan users (from getCallerUserProfile), display daily usage counter showing 'X / 5 recipes used today' using dailyRecipeCount from UserProfile. Style with green theme (#2E7D32). Make responsive."
+        },
+        {
+          "path": "frontend/src/hooks/useGenerateRecipe.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for generating recipes using actor.generateRecipe(ingredientsInput). Handle daily limit errors gracefully (show upgrade prompt for free users). Invalidate currentUserProfile query on success to update usage counter."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /dashboard path and set it as the default authenticated landing page. Add navigation link to dashboard in main navigation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Display generated recipes in Recipe Card layout with Save, Share, and Download PDF action buttons",
+      "acceptanceCriteria": [
+        "Recipe card displays all structured fields from the backend response",
+        "Save button is functional for Pro/Premium users and stores the recipe",
+        "Share button copies recipe text to clipboard",
+        "Download PDF button is enabled for Pro/Premium users",
+        "Free users see an upgrade prompt when attempting to Save or Download PDF"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/RecipeCard.tsx",
+          "operation": "create",
+          "description": "Create recipe card component that displays Recipe (name, cooking time, difficulty badge, ingredients used list, step-by-step instructions from generatedRecipe JSON field). Include action buttons: Save (Pro/Premium only, calls saveRecipe), Share (copies recipe text to clipboard), Download PDF (Pro/Premium only). For free users clicking Save or Download PDF, show upgrade prompt modal. Parse the generatedRecipe JSON string from backend to extract structured fields. Style with green theme and soft shadows."
+        },
+        {
+          "path": "frontend/src/hooks/useSaveRecipe.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for saving recipes using actor.saveRecipe(recipeId). Handle authorization errors for free users gracefully. Invalidate saved recipes query on success."
+        },
+        {
+          "path": "frontend/src/components/UpgradePromptModal.tsx",
+          "operation": "create",
+          "description": "Create modal component that prompts free users to upgrade to Pro or Premium when attempting premium features (Save, Download PDF). Include links to pricing/checkout. Style with green theme."
+        },
+        {
+          "path": "frontend/src/routes/dashboard.tsx",
+          "operation": "modify",
+          "description": "Wire RecipeCard component to display generated recipe result from useGenerateRecipe mutation. Show recipe card below the ingredient input section when a recipe is successfully generated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Build Saved Recipes page for Pro/Premium users displaying saved recipe cards in a grid",
+      "acceptanceCriteria": [
+        "Saved Recipes page is accessible from navigation for Pro/Premium users",
+        "Displays all saved recipes as cards",
+        "Cards link to full recipe detail view",
+        "Users can remove a recipe from saved"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/saved-recipes.tsx",
+          "operation": "create",
+          "description": "Create saved recipes page for Pro/Premium users. Display all saved recipes from getSavedRecipes in a responsive grid using RecipeCard components. Each card shows recipe name, difficulty, cooking time, and buttons to view full details or remove from saved (using deleteSavedRecipe). Guard route to require Pro/Premium plan. Style with green theme."
+        },
+        {
+          "path": "frontend/src/hooks/useGetSavedRecipes.ts",
+          "operation": "create",
+          "description": "Create React Query hook for fetching saved recipes using actor.getSavedRecipes(principal). Accept principal as parameter, default to current user's principal from useInternetIdentity."
+        },
+        {
+          "path": "frontend/src/hooks/useDeleteSavedRecipe.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for deleting saved recipes using actor.deleteSavedRecipe(recipeId). Invalidate saved recipes query on success."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /saved-recipes path. Add navigation link to saved recipes page, visible only for Pro/Premium users (check planType from getCallerUserProfile)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Integrate Stripe checkout UI for subscription plan upgrades (Free, Pro $10/month, Premium $20/month)",
+      "acceptanceCriteria": [
+        "Pricing page displays all three tiers with their features",
+        "Clicking upgrade launches Stripe Checkout",
+        "On successful payment callback, user's plan_type is updated to 'pro' or 'premium'",
+        "Plan-gated features unlock immediately after upgrade"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PaymentSetup.tsx",
+          "operation": "create",
+          "description": "Create admin payment setup component using the stripe component. Check isStripeConfigured() and if not configured, show admin panel to initialize Stripe with StripeConfiguration (secret key, allowed countries array). Do not show when already configured. Use the authorization component to guard this as admin-only. Verify the stripe component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCreateCheckoutSession.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for Stripe checkout using actor.createCheckoutSession(items, successUrl, cancelUrl). Parse JSON response to extract CheckoutSession with id and url. Validate that session.url is non-empty before returning. Construct successUrl as /payment-success and cancelUrl as /payment-failure using window.location. Verify the stripe component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/routes/pricing.tsx",
+          "operation": "create",
+          "description": "Create pricing page component displaying three tiers: Free (5 recipes/day, ads), Pro ($10/mo, unlimited recipes, save favorites, no ads, download PDF), Premium ($20/mo, all Pro features plus meal planner, grocery list, nutrition breakdown). Each tier includes upgrade button that uses useCreateCheckoutSession to initiate Stripe Checkout. On successful session creation, redirect to session.url using window.location.href (NOT router navigation). Convert plan details to ShoppingItem format for backend. Style with green theme."
+        },
+        {
+          "path": "frontend/src/routes/payment-success.tsx",
+          "operation": "create",
+          "description": "Create payment success component to display after successful Stripe payment. Show success message, link to profile to see updated plan, and link to dashboard. Parse sessionId from URL query params and optionally call getStripeSessionStatus for confirmation. Style with green theme. Verify the stripe component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/routes/payment-failure.tsx",
+          "operation": "create",
+          "description": "Create payment failure component to display when Stripe payment is cancelled or fails. Show friendly error message and link back to pricing page. Style with green theme. Verify the stripe component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registrations for /pricing, /payment-success, and /payment-failure paths. Wire pricing page link into main navigation. Verify the stripe component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Build Premium-only Meal Planner feature with weekly meal plan generation, grocery list, and nutrition breakdown placeholder",
+      "acceptanceCriteria": [
+        "Meal Planner page is accessible only to Premium users",
+        "Users can generate a 7-day meal plan",
+        "Grocery list is auto-generated from the meal plan",
+        "Nutrition breakdown section is visible on recipe cards for Premium users"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/meal-planner.tsx",
+          "operation": "create",
+          "description": "Create Premium-only meal planner page. Allow users to generate a weekly meal plan using generateMealPlan backend capability. Display the 7-day plan in a calendar/list view. Include auto-generated grocery list section aggregating ingredients from the week's recipes. Guard route to require Premium plan. Style with green theme and make responsive."
+        },
+        {
+          "path": "frontend/src/hooks/useGenerateMealPlan.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for generating meal plans using actor.generateMealPlan(weekPlan). Handle Premium-only authorization errors gracefully. Invalidate meal plans query on success."
+        },
+        {
+          "path": "frontend/src/hooks/useGetUserMealPlans.ts",
+          "operation": "create",
+          "description": "Create React Query hook for fetching user meal plans using actor.getUserMealPlans(principal). Accept principal as parameter, default to current user's principal."
+        },
+        {
+          "path": "frontend/src/components/RecipeCard.tsx",
+          "operation": "modify",
+          "description": "Add nutrition breakdown placeholder section to recipe cards. Display this section only for Premium users (check planType from getCallerUserProfile). Show estimated nutrition values (can be placeholder/mock data for now)."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /meal-planner path. Add navigation link to meal planner, visible only for Premium users (check planType from getCallerUserProfile)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Build Admin Panel with user statistics, revenue summary, API usage counter, and user subscription management",
+      "acceptanceCriteria": [
+        "Admin panel route is inaccessible to non-admin users",
+        "Displays accurate total user count",
+        "Shows total recipes generated as API usage metric",
+        "Admin can update a user's plan_type from the panel"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/admin.tsx",
+          "operation": "create",
+          "description": "Create admin panel page using the authorization component. Display total registered users count (from adminGetStats), total recipes generated (API usage counter from adminGetStats), revenue summary placeholder section. Include user list table from adminGetAllUsers showing user principal/email, current plan, and action to change plan using adminSetUserPlan. Guard route to require admin role (use isCallerAdmin or getCallerUserRole from authorization component). Style with green theme. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useAdminGetStats.ts",
+          "operation": "create",
+          "description": "Create React Query hook for fetching admin statistics using actor.adminGetStats(). Returns totalUsers and totalRecipes counts. Guard with admin-only check."
+        },
+        {
+          "path": "frontend/src/hooks/useAdminGetAllUsers.ts",
+          "operation": "create",
+          "description": "Create React Query hook for fetching all users using actor.adminGetAllUsers(). Guard with admin-only check."
+        },
+        {
+          "path": "frontend/src/hooks/useAdminSetUserPlan.ts",
+          "operation": "create",
+          "description": "Create React Query mutation hook for updating user plans using actor.adminSetUserPlan(userPrincipal, plan). Invalidate all users query on success. Guard with admin-only check."
+        },
+        {
+          "path": "frontend/src/components/PaymentSetup.tsx",
+          "operation": "modify",
+          "description": "Wire PaymentSetup component into admin panel page. Show Stripe configuration status and setup interface for admins."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Add route registration for /admin path. Add admin panel link to navigation, visible only for admin users (use isCallerAdmin or getCallerUserRole from authorization component). Verify the authorization component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Apply consistent minimal green design system throughout the app with #2E7D32/#A5D6A7/#F1F8E9 colors, 12px border-radius, soft shadows, and ad placeholders for free users",
+      "acceptanceCriteria": [
+        "All interactive elements use the defined green palette",
+        "Buttons have 12px border-radius throughout",
+        "Cards and modals have soft shadows",
+        "Ad placeholder banners appear for free users and are absent for paid users",
+        "App passes a basic visual consistency check across all pages"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update global styles to define green color scheme CSS variables (--primary-green: #2E7D32, --light-green: #A5D6A7, --bg-green: #F1F8E9). Set default button border-radius to 12px, define soft box-shadow utilities for cards and modals. Import modern sans-serif font (Inter or similar). Ensure consistent typography scale and spacing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind theme with green color palette: primary (#2E7D32), light (#A5D6A7), background (#F1F8E9). Set default border radius for buttons to 12px. Configure box-shadow utilities for soft shadows. Set font family to modern sans-serif (Inter or similar)."
+        },
+        {
+          "path": "frontend/src/components/AdBanner.tsx",
+          "operation": "create",
+          "description": "Create ad banner placeholder component that displays for free-plan users only (check planType from getCallerUserProfile). Show placeholder ad text/image in dashboard and other appropriate locations. Hide for Pro/Premium users. Style with subtle borders, not intrusive."
+        },
+        {
+          "path": "frontend/src/routes/dashboard.tsx",
+          "operation": "modify",
+          "description": "Wire AdBanner component into dashboard layout. Display in sidebar or below main content area for free users only."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Wire generated GreenChef logo image (minimalist green chef's hat icon with leaf) as site logo and favicon",
+      "acceptanceCriteria": [
+        "Logo is rendered in the navbar and landing page hero",
+        "Favicon uses the same logo icon",
+        "Logo is stored as a static asset in frontend/public/assets/generated"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Navbar.tsx",
+          "operation": "create",
+          "description": "Create navigation bar component displaying the generated logo frontend/public/assets/generated/greenchef-logo.dim_256x256.png, site title 'GreenChef', and navigation links (Dashboard, Saved Recipes for Pro+, Meal Planner for Premium, Pricing, Profile, Admin for admins). Include LoginButton component. Style with green theme. Make responsive with mobile menu."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Update favicon link to use the generated logo frontend/public/assets/generated/greenchef-logo.dim_256x256.png. Update page title to 'GreenChef – AI Recipe Generator'."
+        },
+        {
+          "path": "frontend/src/routes/__root.tsx",
+          "operation": "modify",
+          "description": "Wire Navbar component into root layout to display on all pages."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Wire generated hero background illustration (kitchen counter with vegetables) into landing page hero section",
+      "acceptanceCriteria": [
+        "Hero section displays the illustration as background or side visual",
+        "Image is stored in frontend/public/assets/generated",
+        "Image does not distract from the hero text and CTA"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/routes/landing.tsx",
+          "operation": "modify",
+          "description": "Wire the generated hero illustration frontend/public/assets/generated/hero-kitchen.dim_1440x600.png as hero section background image. Apply subtle overlay or positioning to ensure headline 'Cook Smart With What You Already Have' and CTA button remain clearly visible. Use CSS background-image or img tag with appropriate styling."
+        }
+      ]
+    }
+  ]
+}

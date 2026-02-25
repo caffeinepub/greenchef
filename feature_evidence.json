@@ -1,0 +1,156 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-user-authentication-using-internet-identity-the-platform-s-supported-auth-mechanism-support-user-signup-and-login-store-user-records-in-the-backend-with-fields-id-email-or-principal-plan-type-free-pro-premium-daily-recipe-count-daily-limit-and-created-at-display-a-profile-section-showing-the-user-s-name-email-and-current-subscription-status",
+      "featureTitle": "Implement user authentication using Internet Identity (the platform's supported auth mechanism). Support user signup and login. Store user records in the backend with fields: id, email (or principal), plan_type (free/pro/premium), daily_recipe_count, daily_limit, and created_at. Display a profile section showing the user's name/email and current subscription status.",
+      "files": [
+        "frontend/src/components/ProfileSetupModal.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-generated-recipes-in-a-recipe-card-layout-showing-recipe-name-cooking-time-difficulty-badge-ingredients-used-list-and-step-by-step-instructions-include-action-buttons-save-pro-premium-only-share-copies-a-shareable-text-and-download-pdf-pro-premium-only-show-an-upgrade-prompt-for-free-users-who-click-save-or-download-pdf",
+      "featureTitle": "Display generated recipes in a Recipe Card layout showing: Recipe Name, Cooking Time, Difficulty badge, Ingredients Used list, and Step-by-step instructions. Include action buttons: 'Save' (Pro/Premium only), 'Share' (copies a shareable text), and 'Download PDF' (Pro/Premium only). Show an upgrade prompt for free users who click Save or Download PDF.",
+      "files": [
+        "frontend/src/components/RecipeCard.tsx",
+        "frontend/src/components/UpgradePromptModal.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-integrate-stripe-for-subscription-payments-implement-three-tiers-free-default-5-recipes-day-ads-shown-pro-10-month-unlimited-recipes-save-favorites-no-ads-download-pdf-and-premium-20-month-all-pro-features-plus-meal-planner-grocery-list-generation-and-nutrition-breakdown-placeholder-use-stripe-checkout-for-plan-upgrades-on-successful-payment-update-the-user-s-plan-type-in-the-backend",
+      "featureTitle": "Integrate Stripe for subscription payments. Implement three tiers: Free (default, 5 recipes/day, ads shown), Pro ($10/month, unlimited recipes, save favorites, no ads, download PDF), and Premium ($20/month, all Pro features plus meal planner, grocery list generation, and nutrition breakdown placeholder). Use Stripe Checkout for plan upgrades. On successful payment, update the user's plan_type in the backend.",
+      "files": [
+        "frontend/src/components/PaymentSetup.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-premium-only-meal-planner-feature-allow-premium-users-to-generate-a-weekly-meal-plan-based-on-available-ingredients-include-a-grocery-list-auto-generation-feature-that-aggregates-missing-ingredients-across-the-meal-plan-include-a-nutrition-breakdown-placeholder-section-per-recipe-can-show-estimated-values",
+      "featureTitle": "Build a Premium-only Meal Planner feature. Allow Premium users to generate a weekly meal plan based on available ingredients. Include a Grocery List auto-generation feature that aggregates missing ingredients across the meal plan. Include a Nutrition Breakdown placeholder section per recipe (can show estimated values).",
+      "files": [
+        "frontend/src/components/RecipeCard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-an-admin-panel-accessible-only-to-a-designated-admin-principal-display-total-registered-users-count-revenue-summary-simulated-from-stripe-webhook-data-stored-in-backend-api-usage-counter-total-recipes-generated-and-a-user-list-with-subscription-management-ability-to-change-a-user-s-plan-type-protect-the-route-so-only-the-admin-principal-can-access-it",
+      "featureTitle": "Build an Admin Panel accessible only to a designated admin principal. Display: total registered users count, revenue summary (simulated from Stripe webhook data stored in backend), API usage counter (total recipes generated), and a user list with subscription management (ability to change a user's plan_type). Protect the route so only the admin principal can access it.",
+      "files": [
+        "frontend/src/components/PaymentSetup.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-consistent-minimal-green-design-system-throughout-the-entire-app-use-2e7d32-as-primary-green-a5d6a7-as-light-green-f1f8e9-as-background-12px-border-radius-on-all-buttons-soft-box-shadows-on-cards-and-modals-and-a-modern-sans-serif-font-e-g-inter-or-similar-ad-banner-placeholders-should-appear-for-free-plan-users-in-the-dashboard-area-ensure-no-jarring-color-clashes-and-maintain-visual-hierarchy",
+      "featureTitle": "Apply a consistent, minimal green design system throughout the entire app. Use #2E7D32 as primary green, #A5D6A7 as light green, #F1F8E9 as background, 12px border-radius on all buttons, soft box shadows on cards and modals, and a modern sans-serif font (e.g. Inter or similar). Ad banner placeholders should appear for free-plan users in the dashboard area. Ensure no jarring color clashes and maintain visual hierarchy.",
+      "files": [
+        "frontend/src/components/AdBanner.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-a-branded-app-logo-image-a-minimalist-green-chef-s-hat-icon-with-a-small-leaf-accent-suitable-for-use-as-the-site-logo-and-favicon",
+      "featureTitle": "Generate a branded app logo image: a minimalist green chef's hat icon with a small leaf accent, suitable for use as the site logo and favicon.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/components/Navbar.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "http-outcalls@3.0.0",
+        "stripe@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
